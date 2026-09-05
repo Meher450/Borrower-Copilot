@@ -39,7 +39,7 @@ single public figure exists and a defensible call had to be made for this build.
 | Score ≥ 750 | Band narrows to [low, low + 40% of span] | Strong score narrows toward the favourable end | my judgement |
 | 650 ≤ Score < 750 | Band narrows to [low + 20% of span, low + 70% of span] | Middling score, middling band | my judgement |
 | Score < 650 | Band narrows to [low + 50% of span, high] | Weak score shifts toward the costly end | my judgement |
-| Score unknown | Full, unmodified band | FR-Q6 - unknown must never be silently treated as worst-case | Confirmed requirement, FR-Q6 |
+| Score unknown | Full, unmodified band | FR-Q6 - unknown must never be silently treated as worst-case | Confirmed requirement, BRS FR-Q6 |
 
 ## Fees and APR
 
@@ -86,7 +86,7 @@ Tenure trade-off is shown at `default - 2 years` (minimum 1) and `default + 3 ye
 | What | Value | Why | Source |
 |---|---|---|---|
 | Lendable age range | 21 – 65 | Standard Indian lending age eligibility window | my judgement, consistent with common lender age bands |
-| Existing EMI ≥ net income | Flagged, not blocked | FR-Q7 requires confirm-or-correct, not silent rejection | Confirmed requirement, FR-Q7 |
+| Existing EMI ≥ net income | Flagged, not blocked | FR-Q7 requires confirm-or-correct, not silent rejection | Confirmed requirement, BRS FR-Q7 |
 | Net income ≤ 0 | Flagged | Cannot compute any FOIR-based output from non-positive income | - |
 | Amount wanted ≤ 0 | Flagged | Nothing to assess | - |
 
@@ -112,4 +112,4 @@ Tenure trade-off is shown at `default - 2 years` (minimum 1) and `default + 3 ye
 
 - Real-world FOIR/rate norms vary by lender, city tier, and season; the bands above are **illustrative defaults for a self-assessment tool**, not a specific lender's actual policy.
 - APR here is a simplified fee-amortisation approximation, not a full effective-interest-rate (XIRR) calculation.
-- All figures depend entirely on borrower self-report; there is no bureau or income verification (by design - see the requirements' §3.1 and NFR-1).
+- All figures depend entirely on borrower self-report; there is no bureau or income verification (by design - see BRS §3.1 and NFR-1).

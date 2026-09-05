@@ -1,6 +1,6 @@
 # Borrower Copilot
 
-A pre-lending self-assessment tool for Indian borrowers. No login, no bureau pull, nothing stored - see the source requirements document for the full requirements and the delivery plan document for the plan this was built from (both kept alongside this repo, not tracked in git).
+A pre-lending self-assessment tool for Indian borrowers. No login, no bureau pull, nothing stored - see `Borrower_Copilot_BRS.docx` for the full requirements and `Borrower_Copilot_Implementation_Plan.md` for the delivery plan this was built from.
 
 ## Run it (under 5 minutes, no backend)
 
@@ -36,5 +36,5 @@ node test_rules.js
 | `test_rules.js` | Runnable regression checks |
 | `runthroughs/priya.md`, `ravi.md`, `anita.md` | The three required persona run-throughs, generated from real engine output |
 | `WALKTHROUGH.md` | Five-minute written walkthrough - what's built, what's next, what would be cut |
-| `Borrower_Copilot_Requirements.docx` (not tracked in git) | Source requirements |
-| `Borrower_Copilot_Implementation_Plan.md` (not tracked in git) | Delivery plan (workstreams, WBS, traceability matrix) this build followed |
+| `Borrower_Copilot_BRS.docx` | Source requirements |
+| `Borrower_Copilot_Implementation_Plan.md` | Delivery plan (workstreams, WBS, traceability matrix) this build followed |

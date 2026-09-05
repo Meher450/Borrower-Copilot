@@ -1,13 +1,13 @@
 # Borrower Copilot
 
-A pre-lending self-assessment tool for Indian borrowers. No login, no bureau pull, nothing stored - see `Borrower_Copilot_BRS.docx` for the full requirements and `Borrower_Copilot_Implementation_Plan.md` for the delivery plan this was built from.
+A pre-lending self-assessment tool for Indian borrowers. No login, no bureau pull, nothing stored.
 
 ## Run it (under 5 minutes, no backend)
 
 There is no build step. Either:
 
 ```
-open index.html
+open [Online here](https://meher450.github.io/Borrower-Copilot/)
 ```
 
 or, if your browser blocks local `file://` script loading:

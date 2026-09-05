@@ -6,9 +6,9 @@ A pre-lending self-assessment tool for Indian borrowers. No login, no bureau pul
 
 There is no build step. Either:
 
-```
+
 open [Online here](https://meher450.github.io/Borrower-Copilot/)
-```
+
 
 or, if your browser blocks local `file://` script loading:
 

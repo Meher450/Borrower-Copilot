@@ -1,0 +1,180 @@
+<title>Borrower Copilot Challenge</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#FBF9FA; --bg2:#F3EEF1; --ink:#221A20; --muted:#6E6069; --rule:#E2D9DE;
+  --accent:#4B2440; --accent-ink:#FBF9FA; --accent-soft:#EFE3EA; --warn:#8A4B12;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17121A; --bg2:#1F1822; --ink:#EEE6EA; --muted:#A99DA5; --rule:#33293A;
+    --accent:#CFA5C1; --accent-ink:#17121A; --accent-soft:#2A1F2C; --warn:#E0A265;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17121A; --bg2:#1F1822; --ink:#EEE6EA; --muted:#A99DA5; --rule:#33293A;
+  --accent:#CFA5C1; --accent-ink:#17121A; --accent-soft:#2A1F2C; --warn:#E0A265;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+header{border-bottom:1px solid var(--rule);padding-bottom:1.75rem;margin-bottom:2.5rem}
+.eyebrow{font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 .75rem}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(2.2rem,5vw,3.1rem);line-height:1.05;margin:0 0 1rem;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--accent)}
+.thesis{font-family:var(--display);font-size:1.25rem;line-height:1.4;margin:0;color:var(--ink);max-width:40rem}
+.thesis strong{font-weight:600;color:var(--accent)}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;margin-top:1.25rem;font-size:.85rem;color:var(--muted)}
+.meta span b{color:var(--ink);font-weight:600}
+section{margin:0 0 2.75rem}
+h2{font-family:var(--display);font-weight:500;font-size:1.6rem;line-height:1.15;margin:0 0 .9rem;text-wrap:balance}
+h3{font-family:var(--body);font-weight:600;font-size:1rem;margin:1.4rem 0 .4rem}
+p{margin:0 0 .9rem;max-width:40rem}
+p.lede{font-size:1.05rem}
+ol,ul{margin:0 0 1rem;padding-left:1.3rem;max-width:40rem}
+li{margin-bottom:.45rem}
+li::marker{color:var(--accent);font-weight:600}
+.callout{background:var(--accent-soft);border-left:3px solid var(--accent);padding:.9rem 1.1rem;margin:1rem 0 1.25rem;max-width:40rem}
+.callout p{margin:0}
+.tablewrap{overflow-x:auto;margin:0 0 1rem}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;vertical-align:top;padding:.65rem .7rem;border-bottom:1px solid var(--rule)}
+th{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--ink)}
+td.k{font-family:var(--mono);font-size:.85rem;color:var(--accent);white-space:nowrap}
+td.pts{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+td b{font-weight:600}
+.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+@media (max-width:680px){.personas{grid-template-columns:1fr}}
+.persona{background:var(--bg2);border:1px solid var(--rule);padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.5rem}
+.persona .who{font-family:var(--display);font-size:1.3rem;font-weight:500;line-height:1.1}
+.persona .where{font-size:.8rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.persona p{font-size:.92rem;margin:0}
+.persona .ask{margin-top:auto;padding-top:.6rem;border-top:1px solid var(--rule);font-size:.92rem}
+.persona .ask b{color:var(--accent)}
+.num{font-family:var(--mono);font-size:.9em;font-variant-numeric:tabular-nums}
+.logi{display:grid;grid-template-columns:8rem 1fr;gap:.5rem 1rem;max-width:40rem}
+.logi dt{font-weight:600}
+.logi dd{margin:0}
+footer{border-top:1px solid var(--rule);padding-top:1.5rem;font-family:var(--display);font-style:italic;font-size:1.15rem;color:var(--muted);max-width:40rem}
+a{color:var(--accent)}
+a:focus-visible,:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Lokta · Build challenge · take-home</p>
+  <h1>Borrower <em>Copilot</em></h1>
+  <p class="thesis">Build a personal assistant that helps an Indian borrower answer four questions before they walk into a lender: <strong>Should I borrow at all? How much am I really eligible for? What is a fair rate for me? What EMI should I agree to?</strong> Then hand them a one-page card they can negotiate with.</p>
+  <div class="meta"><span>Version <b>1.0</b></span><span>Issued <b>2 Sep 2026</b></span><span>Time box <b>4 days</b></span><span>Expected effort <b>12 - 16 hours</b></span></div>
+</header>
+
+<section>
+  <h2>Why this challenge</h2>
+  <p class="lede">Every lender has a model that decides what a borrower gets. The borrower has nothing. They walk in blind, take the first sanction letter, and find out three years later that they paid four points over fair and stretched to 65% of income.</p>
+  <p>We want to see how you think about that gap. Not a credit model. A <b>self-assessment</b> that makes the borrower the best-informed person in the room.</p>
+  <p>This is the actual shape of a product we care about. Treat it as real.</p>
+</section>
+
+<section>
+  <h2>What the app must do</h2>
+  <p>A borrower opens the app, answers questions, and gets four outputs. No login, no bureau pull, no personal data stored. Everything runs from what they tell you.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Output</th><th>What it is</th><th>What good looks like</th></tr></thead>
+    <tbody>
+      <tr><td class="k">O1</td><td><b>Borrow / Don't borrow / Borrow less</b></td><td>A verdict with a reason. "Don't" is a legitimate answer and must be reachable.</td></tr>
+      <tr><td class="k">O2</td><td><b>Maximum amount</b></td><td>Two numbers, clearly separated: what a <b>lender will likely sanction</b> and what the <b>borrower can safely carry</b>. They are often different. Say which one the borrower should use.</td></tr>
+      <tr><td class="k">O3</td><td><b>Fair interest rate</b></td><td>A band, not a point. Show what the borrower should expect <i>and</i> the all-in cost (APR including processing fee), so the lender's quote can be compared honestly.</td></tr>
+      <tr><td class="k">O4</td><td><b>EMI / outflow to agree to</b></td><td>A monthly ceiling the borrower should not cross, with the tenure trade-off shown. Include one stress case: income drops or rate rises.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><p><b>Plus a Negotiation Card.</b> One screen the borrower can hold up to a lender. Lender quotes 14%, card says "fair for your profile is 11 - 12.5%, because...".</p></div>
+</section>
+
+<section>
+  <h2>The question design</h2>
+  <p class="lede">This is the heart of it. Two tiers. You decide the exact questions; below is the intent.</p>
+
+  <h3>Must questions: the minimum to produce all four outputs</h3>
+  <p>Roughly 8 to 10. If the borrower answers only these, the app still works, with <b>wide ranges and low confidence</b>. Think: purpose, amount wanted, loan type, net monthly income and its type (salaried, self-employed, informal), existing EMIs, household expenses, age, credit score if known.</p>
+
+  <h3>Additional questions: each one should tighten a range</h3>
+  <p>As many as you think earn their place, but <b>every additional question must change an output</b>. If a question never moves a number, cut it. Think: income stability and history, variable-income share, detail of existing loans, card utilisation, past bounces, emergency savings in months, collateral value, co-applicant, upcoming large expenses, what the loan will <i>earn</i> if it is productive, offers already received.</p>
+
+  <h3>Rules we will judge you on</h3>
+  <ol>
+    <li><b>Adaptive.</b> A salaried IT employee and a kirana owner should not see the same 30 questions. Skip what does not apply.</li>
+    <li><b>Confidence widens with silence.</b> Fewer answers, wider band, and the app says so. Never narrow a range you have no basis to narrow.</li>
+    <li><b>Unknown is never zero.</b> "I don't know my credit score" is not a 300. Model it as unknown and show the consequence.</li>
+    <li><b>Every number has a why.</b> The borrower must be able to read, in one sentence, why the ceiling is <span class="num">₹22,000</span> and not <span class="num">₹30,000</span>.</li>
+    <li><b>India, in rupees.</b> FOIR-style affordability, RBI-style all-in APR disclosure, real product bands (home, LAP, personal, gold, two-wheeler, business). Use what you know; document what you assumed.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Three borrowers</h2>
+  <p>Use these. We will too. We hold our own expected ranges for each; you are scored on the <b>reasoning that gets you to your numbers</b>, not on matching ours.</p>
+  <div class="personas">
+    <div class="persona">
+      <div class="who">Priya, 29</div>
+      <div class="where">Bengaluru · salaried</div>
+      <p>Software engineer at a large MNC for 5 years. Net <span class="num">₹1,10,000</span>/month. One car loan, EMI <span class="num">₹14,000</span>, 2 years left. Credit score 780. Rents at <span class="num">₹28,000</span>.</p>
+      <p class="ask">Wants <b><span class="num">₹8,00,000</span> personal loan</b> for a wedding.</p>
+    </div>
+    <div class="persona">
+      <div class="who">Ravi, 42</div>
+      <div class="where">Mysuru · self-employed</div>
+      <p>Kirana store for 14 years. Cash income <span class="num">₹40,000–80,000</span>/month; ITR shows <span class="num">₹4,20,000</span>/year. Owns the shop premises, about <span class="num">₹45,00,000</span>, unencumbered. Never taken a formal loan; no credit score. Wife earns <span class="num">₹18,000</span> teaching.</p>
+      <p class="ask">Wants <b><span class="num">₹15,00,000</span></b> for a second stock line and a delivery vehicle.</p>
+    </div>
+    <div class="persona">
+      <div class="who">Anita, 35</div>
+      <div class="where">Hubballi · informal</div>
+      <p>Delivery-platform rider plus home tailoring. <span class="num">₹26,000–30,000</span>/month, two children, husband unemployed 8 months. Three app loans, <span class="num">₹35,000</span> outstanding at 30%+, one EMI bounced last month.</p>
+      <p class="ask">Wants <b><span class="num">₹1,50,000</span></b> for an electric scooter to double delivery runs.</p>
+    </div>
+  </div>
+  <p>Your app should give each of them something they could act on tomorrow.</p>
+</section>
+
+<section>
+  <h2>Deliverables</h2>
+  <ol>
+    <li><b>The working app.</b> Web or mobile, any stack. Must run locally from your README in under 5 minutes. No backend required.</li>
+    <li><b>RULES.md.</b> Every rule, threshold, band and assumption in a table: <i>what · value · why · source or "my judgement"</i>. This document is read as carefully as the code.</li>
+    <li><b>Three run-throughs.</b> Priya, Ravi and Anita: the questions your app asked each, the four outputs, and the Negotiation Card for each.</li>
+    <li><b>A five-minute walkthrough.</b> Screen recording or written. What you would build next, and what you would cut.</li>
+  </ol>
+  <div class="callout"><p>Using AI tools to build this is fine and expected. You must be able to defend every rule without them. In the follow-up we will ask you to change a rule live.</p></div>
+</section>
+
+<section>
+  <h2>How we score</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Area</th><th>Points</th><th>We are looking for</th></tr></thead>
+    <tbody>
+      <tr><td><b>Domain reasoning</b></td><td class="pts">30</td><td>Are the lender's number and the borrower's number correctly different? Does "Don't borrow" fire when it should? Is Ravi routed to a secured product? Is APR honest about fees?</td></tr>
+      <tr><td><b>Question design</b></td><td class="pts">20</td><td>Tight must-set. Additional questions that each move a number. Adaptive paths. Sensible defaults for the unanswered.</td></tr>
+      <tr><td><b>Explainability and the Card</b></td><td class="pts">20</td><td>Could a borrower actually use this in a branch? Is every output traceable to answers in one sentence?</td></tr>
+      <tr><td><b>Product craft</b></td><td class="pts">15</td><td>Flow, copy, ranges shown as ranges, confidence shown honestly, works on a phone.</td></tr>
+      <tr><td><b>Engineering</b></td><td class="pts">10</td><td>Rules separated from UI. Readable. Runs first time.</td></tr>
+      <tr><td><b>Honesty about limits</b></td><td class="pts">5</td><td>RULES.md says what you do not know. The app says where it is guessing.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Not scored: pixel perfection, a real bureau integration, a machine-learning model, breadth of loan products beyond what the three borrowers need.</p>
+</section>
+
+<section>
+  <h2>Logistics</h2>
+  <dl class="logi">
+    <dt>Time</dt><dd>4 calendar days from receipt. We expect 12 - 16 hours of work. Tell us if you need more; that is not held against you.</dd>
+    <dt>Submit</dt><dd>A repo link (public, or private and shared with us) with the four deliverables at the root.</dd>
+    <dt>Follow-up</dt><dd>A 60-minute session. You walk us through one borrower, then we change an assumption and watch you change the app.</dd>
+    <dt>Questions</dt><dd>Ask. Good questions about the brief are part of the evaluation.</dd>
+  </dl>
+</section>
+
+<footer>What we are really testing: can you turn lending judgement into rules a borrower can see and a machine can run? That is the whole company.</footer>
+</div>

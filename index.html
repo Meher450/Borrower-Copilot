@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Borrower Copilot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Borrower Copilot</h1>
+  <p class="tagline">Know your position before you walk into a lender. No login. No bureau pull. Nothing you tell us is stored.</p>
+</header>
+
+<main>
+  <section id="must-section">
+    <h2>About your loan</h2>
+    <div id="must-questions"></div>
+  </section>
+
+  <ul id="issues" class="issues"></ul>
+
+  <section id="additional-section" hidden>
+    <h2>A few more questions</h2>
+    <p class="hint">Every question below is optional - but each one, once answered, tightens at least one of your ranges below. Skipping a question never narrows anything; it only leaves a wider, honest range.</p>
+    <div id="additional-questions"></div>
+  </section>
+
+  <section id="outputs-section" hidden>
+    <h2>Your position</h2>
+    <p id="confidence-badge" class="badge"></p>
+    <div id="outputs"></div>
+  </section>
+
+  <section id="card-section" hidden class="card-section">
+    <h2>Negotiation Card</h2>
+    <p class="hint no-print">Show this to a lender, or print it.</p>
+    <div id="card" class="card"></div>
+    <button class="no-print" onclick="window.print()">Print / Save Card</button>
+  </section>
+</main>
+
+<script src="rules.js"></script>
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+:root {
+  color-scheme: light dark;
+  --bg: #fbf9fa;
+  --ink: #221a20;
+  --muted: #6e6069;
+  --rule: #e2d9de;
+  --accent: #4b2440;
+  --accent-soft: #efe3ea;
+  --warn: #8a4b12;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #17121a; --ink: #eee6ea; --muted: #a99da5; --rule: #33293a; --accent: #cfa5c1; --accent-soft: #2a1f2c; --warn: #e0a265; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+header, main { max-width: 40rem; margin: 0 auto; padding: 1.5rem 1.25rem; }
+header { border-bottom: 1px solid var(--rule); }
+h1 { margin: 0 0 .4rem; }
+.tagline { color: var(--muted); margin: 0; }
+h2 { font-size: 1.2rem; margin: 2rem 0 .5rem; }
+.hint { color: var(--muted); font-size: .9rem; }
+.question { margin-bottom: 1rem; }
+.question label { display: block; font-weight: 600; margin-bottom: .3rem; font-size: .95rem; }
+input, select { width: 100%; padding: .5rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); font-size: 1rem; }
+.inline-row { display: flex; gap: .75rem; align-items: center; }
+.inline-row input { flex: 1; }
+.dontknow { display: flex; align-items: center; gap: .3rem; font-size: .85rem; white-space: nowrap; color: var(--muted); }
+.dontknow input { width: auto; }
+.issues { color: var(--warn); padding-left: 1.2rem; }
+.badge { display: inline-block; padding: .3rem .7rem; border-radius: 999px; font-size: .85rem; background: var(--accent-soft); color: var(--accent); }
+.output-box { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.output-box h3 { margin: 0 0 .4rem; font-size: 1rem; color: var(--accent); }
+.output-box .headline { font-weight: 600; margin: 0 0 .3rem; }
+.output-box .detail { color: var(--muted); margin: 0; font-size: .92rem; }
+.card { border: 2px solid var(--accent); border-radius: 8px; padding: 1.25rem; background: var(--accent-soft); }
+.card p { margin: 0 0 .6rem; }
+.card p:last-child { margin-bottom: 0; font-size: .85rem; color: var(--muted); }
+button { margin-top: 1rem; padding: .6rem 1.2rem; border: none; border-radius: 6px; background: var(--accent); color: var(--bg); font-size: 1rem; cursor: pointer; }
+@media print {
+  .no-print, header, #must-section, #additional-section, #outputs-section { display: none !important; }
+  .card { border: none; background: none; }
+}

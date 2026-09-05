@@ -215,8 +215,8 @@
       }
       return {
         verdict: "Borrow less",
-        reason: "Recent bounces and existing high-cost debt mean you can safely carry about ₹" + fmtINR(safeCarryAmount) +
-          ", well below the ₹" + fmtINR(inputs.amountWanted) + " you asked for."
+        reason: "Recent bounces and existing high-cost debt mean you can safely carry about ₹ " + fmtINR(safeCarryAmount) +
+          ", well below the ₹ " + fmtINR(inputs.amountWanted) + " you asked for."
       };
     }
     if (inputs.amountWanted <= safeCarryAmount) {
@@ -228,7 +228,7 @@
     }
     return {
       verdict: "Borrow less",
-      reason: "You can safely carry about ₹" + fmtINR(safeCarryAmount) + " rather than the full ₹" +
+      reason: "You can safely carry about ₹ " + fmtINR(safeCarryAmount) + " rather than the full ₹ " +
         fmtINR(inputs.amountWanted) + " you asked for, based on your income and existing obligations."
     };
   }

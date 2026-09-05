@@ -64,6 +64,27 @@
       dontKnow.appendChild(document.createTextNode(" I don't know"));
       row.appendChild(input); row.appendChild(dontKnow);
       wrap.appendChild(row);
+    } else if (q.unit === "currency") {
+      var curWrap = document.createElement("div");
+      curWrap.className = "currency-field";
+      var prefix = document.createElement("span");
+      prefix.className = "currency-prefix";
+      prefix.textContent = "₹";
+      var curInput = document.createElement("input");
+      curInput.type = "text"; curInput.inputMode = "numeric"; curInput.id = "q_" + q.id;
+      curInput.placeholder = "0";
+      // ponytail: reformatting on every keystroke moves the cursor to the end.
+      // Fine for a left-to-right amount field; revisit with cursor-position
+      // tracking only if borrowers report editing mid-value.
+      curInput.addEventListener("input", function () {
+        var digits = curInput.value.replace(/[^0-9]/g, "");
+        var value = digits === "" ? null : Number(digits);
+        curInput.value = value === null ? "" : value.toLocaleString("en-IN");
+        onAnswer(q, value);
+      });
+      curWrap.appendChild(prefix);
+      curWrap.appendChild(curInput);
+      wrap.appendChild(curWrap);
     } else {
       var num = document.createElement("input");
       num.type = "number"; num.id = "q_" + q.id;
@@ -143,7 +164,7 @@
 
   function fmtPct(n) { return n.toFixed(1) + "%"; }
   function fmtRange(range, prefix) {
-    prefix = prefix || "₹";
+    prefix = prefix || "₹ ";
     return prefix + R.fmtINR(range[0]) + " – " + prefix + R.fmtINR(range[1]);
   }
 
@@ -155,33 +176,45 @@
     state.lastResult = result;
 
     outputsEl.innerHTML = "";
-    addOutput(outputsEl, "O1 - Borrowing verdict", result.verdict.verdict, result.verdict.reason);
-    addOutput(outputsEl, "O2 - Maximum amount",
+    addOutput(outputsEl, "O1", "Borrowing verdict", result.verdict.verdict, result.verdict.reason);
+    addOutput(outputsEl, "O2", "Maximum amount",
       "Lender sanction: " + fmtRange(result.o2.sanctionRange) + " · Safe to carry: " + fmtRange(result.o2.safeCarryRange),
       result.o2.recommendation);
-    addOutput(outputsEl, "O3 - Fair interest rate",
+    addOutput(outputsEl, "O3", "Fair interest rate",
       "Fair band: " + fmtPct(result.o3.band[0]) + " – " + fmtPct(result.o3.band[1]) + " · All-in APR ≈ " + fmtPct(result.o3.apr),
       result.o3.secured
         ? "Your unencumbered collateral routes this to secured-product reasoning, which carries a lower fair rate than an unsecured assessment would."
         : "This band reflects your loan type, segment, and credit history as told to us.");
-    addOutput(outputsEl, "O4 - EMI / outflow ceiling",
+    addOutput(outputsEl, "O4", "EMI / outflow ceiling",
       "Ceiling: " + fmtRange(result.o4.ceilingRange) + "/month",
-      "Tenure trade-off: " + result.o4.tradeoff.shortYears + "y → ₹" + R.fmtINR(result.o4.tradeoff.shortEMI) + "/mo, " +
-      result.o4.tradeoff.longYears + "y → ₹" + R.fmtINR(result.o4.tradeoff.longEMI) + "/mo. " +
+      "Tenure trade-off: " + result.o4.tradeoff.shortYears + "y → ₹ " + R.fmtINR(result.o4.tradeoff.shortEMI) + "/mo, " +
+      result.o4.tradeoff.longYears + "y → ₹ " + R.fmtINR(result.o4.tradeoff.longEMI) + "/mo. " +
       "Stress test (20% income drop): " + (result.o4.stress.holds ? "ceiling still holds." : "ceiling would be breached - consider borrowing less or a longer tenure."));
 
     var confBadge = document.getElementById("confidence-badge");
-    confBadge.textContent = "Confidence: " + result.confidence.tier +
-      " (" + answered + "/" + applicable.length + " additional questions answered - more answers narrow these ranges, never the reverse)";
-    confBadge.className = "badge badge-" + result.confidence.tier.toLowerCase();
+    confBadge.innerHTML = "";
+    var stampTier = document.createElement("span");
+    stampTier.className = "stamp-tier";
+    stampTier.textContent = result.confidence.tier;
+    var stampNote = document.createElement("span");
+    stampNote.className = "stamp-note";
+    stampNote.textContent = answered + "/" + applicable.length + " additional questions answered";
+    confBadge.appendChild(stampTier);
+    confBadge.appendChild(stampNote);
+    confBadge.className = "stamp stamp-" + result.confidence.tier.toLowerCase();
 
     renderCard(result, segment);
   }
 
-  function addOutput(container, title, headline, detail) {
+  function addOutput(container, folio, title, headline, detail) {
     var box = document.createElement("div");
-    box.className = "output-box";
-    var h = document.createElement("h3"); h.textContent = title;
+    box.className = "output-row";
+    var h = document.createElement("h3");
+    var folioSpan = document.createElement("span");
+    folioSpan.className = "folio";
+    folioSpan.textContent = folio;
+    h.appendChild(folioSpan);
+    h.appendChild(document.createTextNode(title));
     var p1 = document.createElement("p"); p1.className = "headline"; p1.textContent = headline;
     var p2 = document.createElement("p"); p2.className = "detail"; p2.textContent = detail;
     box.appendChild(h); box.appendChild(p1); box.appendChild(p2);
@@ -202,7 +235,7 @@
         (Math.abs(result.raw.sanctionAmount - result.raw.safeCarryAmount) > result.raw.safeCarryAmount * 0.05
           ? " (a lender may offer more - rely on this figure, not the sanction figure)" : ""),
       rateLine,
-      "Don't exceed ₹" + R.fmtINR(result.o4.ceilingRange[1]) + "/month. Stress test (20% income drop): " +
+      "Don't exceed ₹ " + R.fmtINR(result.o4.ceilingRange[1]) + "/month. Stress test (20% income drop): " +
         (result.o4.stress.holds ? "still holds." : "would be breached."),
       "Confidence: " + result.confidence.tier,
       "Self-assessment only - not a loan offer. Generated " + new Date().toLocaleDateString("en-IN")

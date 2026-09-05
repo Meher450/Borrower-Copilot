@@ -1,42 +1,217 @@
+/* Borrower Copilot - "Ledger" design: a bank passbook / accounting-register
+   reading, because that is the paper format the borrowers this app is for
+   already trust and check daily. Ruled rows instead of cards, a stamped
+   verdict instead of a colored chip, a perforated chit instead of a modal. */
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
 :root {
   color-scheme: light dark;
-  --bg: #fbf9fa;
-  --ink: #221a20;
-  --muted: #6e6069;
-  --rule: #e2d9de;
-  --accent: #4b2440;
-  --accent-soft: #efe3ea;
-  --warn: #8a4b12;
+  --paper: #f7f3ea;
+  --paper-alt: #efe8d6;
+  --ink: #1f3a5f;
+  --ink-strong: #14263d;
+  --rule: #c9c2b2;
+  --rule-strong: #a89f8a;
+  --text: #2a2620;
+  --muted: #6b6252;
+  --approve: #2f6b4f;
+  --caution: #9a6b12;
+  --stop: #a23b2e;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --sans: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #17121a; --ink: #eee6ea; --muted: #a99da5; --rule: #33293a; --accent: #cfa5c1; --accent-soft: #2a1f2c; --warn: #e0a265; }
+  :root {
+    --paper: #161f29; --paper-alt: #1d2733; --ink: #9fc1e0; --ink-strong: #cfe1f2;
+    --rule: #3a4553; --rule-strong: #4c5867; --text: #e7e2d3; --muted: #a39a86;
+    --approve: #5fae87; --caution: #d3a542; --stop: #d97b6c;
+  }
 }
+
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
-header, main { max-width: 40rem; margin: 0 auto; padding: 1.5rem 1.25rem; }
-header { border-bottom: 1px solid var(--rule); }
-h1 { margin: 0 0 .4rem; }
-.tagline { color: var(--muted); margin: 0; }
-h2 { font-size: 1.2rem; margin: 2rem 0 .5rem; }
-.hint { color: var(--muted); font-size: .9rem; }
-.question { margin-bottom: 1rem; }
-.question label { display: block; font-weight: 600; margin-bottom: .3rem; font-size: .95rem; }
-input, select { width: 100%; padding: .5rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); color: var(--ink); font-size: 1rem; }
-.inline-row { display: flex; gap: .75rem; align-items: center; }
-.inline-row input { flex: 1; }
-.dontknow { display: flex; align-items: center; gap: .3rem; font-size: .85rem; white-space: nowrap; color: var(--muted); }
-.dontknow input { width: auto; }
-.issues { color: var(--warn); padding-left: 1.2rem; }
-.badge { display: inline-block; padding: .3rem .7rem; border-radius: 999px; font-size: .85rem; background: var(--accent-soft); color: var(--accent); }
-.output-box { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
-.output-box h3 { margin: 0 0 .4rem; font-size: 1rem; color: var(--accent); }
-.output-box .headline { font-weight: 600; margin: 0 0 .3rem; }
-.output-box .detail { color: var(--muted); margin: 0; font-size: .92rem; }
-.card { border: 2px solid var(--accent); border-radius: 8px; padding: 1.25rem; background: var(--accent-soft); }
-.card p { margin: 0 0 .6rem; }
-.card p:last-child { margin-bottom: 0; font-size: .85rem; color: var(--muted); }
-button { margin-top: 1rem; padding: .6rem 1.2rem; border: none; border-radius: 6px; background: var(--accent); color: var(--bg); font-size: 1rem; cursor: pointer; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+}
+header, main { max-width: 38rem; margin: 0 auto; padding: 2.25rem 1.25rem; }
+
+header {
+  border-bottom: 3px double var(--rule-strong);
+  padding-bottom: 1.5rem;
+}
+h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--ink);
+  margin: 0 0 .5rem;
+}
+.tagline { color: var(--muted); margin: 0; max-width: 32rem; }
+
+h2 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 2.25rem 0 .25rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.hint { color: var(--muted); font-size: .88rem; margin: .4rem 0 1rem; }
+
+/* -- Ledger rows (questions) ------------------------------------------- */
+
+.question {
+  display: flex;
+  align-items: baseline;
+  gap: .75rem;
+  padding: .65rem 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.question label {
+  flex: 0 0 auto;
+  min-width: 11rem;
+  max-width: 15rem;
+  font-size: .92rem;
+  color: var(--text);
+}
+.question input, .question select {
+  flex: 1;
+  min-width: 0;
+  padding: .3rem .1rem;
+  border: none;
+  border-bottom: 1px solid var(--rule-strong);
+  background: transparent;
+  color: var(--ink-strong);
+  font-family: var(--sans);
+  font-size: 1rem;
+  border-radius: 0;
+}
+.question input:focus, .question select:focus {
+  outline: none;
+  border-bottom: 2px solid var(--ink);
+}
+@media (max-width: 32rem) {
+  .question { flex-direction: column; align-items: stretch; gap: .3rem; }
+  .question label { max-width: none; font-weight: 500; }
+}
+
+.currency-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: .3rem;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.currency-field:focus-within { border-bottom: 2px solid var(--ink); }
+.currency-prefix { font-family: var(--serif); font-style: italic; color: var(--muted); }
+.currency-field input {
+  border: none !important;
+  padding: .3rem 0 !important;
+  flex: 1;
+  min-width: 0;
+}
+.currency-field input:focus { border: none !important; }
+
+.inline-row { display: flex; flex: 1; gap: .75rem; align-items: center; min-width: 0; }
+.inline-row input { flex: 1; min-width: 0; }
+.dontknow { display: flex; align-items: center; gap: .3rem; font-size: .82rem; white-space: nowrap; color: var(--muted); }
+.dontknow input { flex: none; border: none; width: auto; }
+
+.issues { color: var(--stop); padding-left: 1.2rem; font-size: .9rem; }
+
+/* -- The statement (outputs) -------------------------------------------- */
+
+.statement-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.statement-head h2 { flex: 1; margin-bottom: 0; }
+
+.output-row {
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.output-row h3 {
+  margin: 0 0 .3rem;
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--muted);
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
+}
+.folio {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink);
+  font-size: 1rem;
+}
+.output-row .headline { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--text); margin: 0 0 .3rem; }
+.output-row .detail { color: var(--muted); margin: 0; font-size: .92rem; }
+
+/* Confidence stamp - a rubber-stamped ink mark, not a chip */
+.stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  padding: .45rem .9rem;
+  border: 2px solid currentColor;
+  border-radius: 50% / 40%;
+  transform: rotate(-4deg);
+  font-family: var(--serif);
+}
+.stamp-tier { font-size: 1rem; font-weight: 600; letter-spacing: .04em; }
+.stamp-note { font-family: var(--sans); font-size: .68rem; color: inherit; opacity: .85; max-width: 9rem; text-align: center; line-height: 1.2; }
+.stamp-low { color: var(--stop); }
+.stamp-medium { color: var(--caution); }
+.stamp-high { color: var(--approve); }
+
+/* -- Negotiation chit ----------------------------------------------------- */
+
+.card-section { margin-top: 1rem; }
+.card {
+  position: relative;
+  background: var(--paper-alt);
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  padding: 1.4rem 1.5rem 1.1rem;
+  font-family: var(--serif);
+  transform: rotate(-.6deg);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: -6px; left: 1rem; right: 1rem; height: 12px;
+  background-image: radial-gradient(circle, var(--paper) 3px, transparent 3.5px);
+  background-size: 16px 12px;
+  background-repeat: repeat-x;
+}
+.card p { margin: 0 0 .65rem; font-size: 1.02rem; }
+.card p:first-child { font-weight: 600; color: var(--ink); }
+.card p:last-child { margin-bottom: 0; font-family: var(--sans); font-size: .8rem; color: var(--muted); border-top: 1px dotted var(--rule); padding-top: .5rem; }
+
+button {
+  margin-top: 1.25rem;
+  padding: .6rem 1.3rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: .95rem;
+  cursor: pointer;
+}
+button:hover { background: var(--ink); color: var(--paper); }
+
 @media print {
   .no-print, header, #must-section, #additional-section, #outputs-section { display: none !important; }
-  .card { border: none; background: none; }
+  .card { border: none; background: none; transform: none; }
+  .card::before { display: none; }
 }

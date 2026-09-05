@@ -15,7 +15,7 @@ function run(name, fn) {
   }
 }
 
-// --- Persona fixtures (BRS §4.2) -------------------------------------------
+// --- Persona fixtures (requirements §4.2) -----------------------------------
 
 var priya = {
   purpose: "Wedding/discretionary", amountWanted: 800000, loanType: "Personal",

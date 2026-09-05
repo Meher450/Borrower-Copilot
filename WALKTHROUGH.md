@@ -4,7 +4,7 @@
 
 Borrower Copilot: a static, client-only web app (`index.html` + `app.js` + `questions.js` + `rules.js`, no build step, no backend). Open `index.html`, answer the 9 must-questions, optionally answer segment-specific additional questions, and it produces the four outputs plus a printable Negotiation Card - all computed in the browser from `RULES.md`'s thresholds, nothing sent anywhere.
 
-## How it maps to the BRS
+## How it maps to the requirements
 
 - **Rules/UI separation (NFR-4):** `rules.js` has zero DOM code and is the same file `test_rules.js` imports under Node - one source of truth, testable outside the browser.
 - **`RULES.md` (deliverable #2):** every threshold in `rules.js` - FOIR ceilings, rate bands, APR fee assumption, stress-test size, plausibility bounds, confidence-widening formula - has a row here with what/value/why/source, so any single number can be challenged and changed without touching the engine's logic.
@@ -18,7 +18,7 @@ Borrower Copilot: a static, client-only web app (`index.html` + `app.js` + `ques
 2. **A more careful APR calculation.** The current one is a simple fee-amortised approximation (`rate + fee% / tenureYears`), not a true effective-interest-rate/XIRR calculation - fine for a self-assessment tool, not fine for a real disclosure product.
 3. **Persist a rule-change audit trail** - right now `RULES.md` and `rules.js` are kept in sync by hand; a small script that diffs them (or generates one from the other) would remove the risk of them drifting apart, which is exactly the auditability NFR-6 depends on.
 4. **Localization/accessibility pass** - screen-reader labelling, and Hindi/regional-language copy, given the target audience explicitly includes informal-income borrowers.
-5. **A richer question bank** for loan types beyond the three personas' needs (explicitly out of scope for this submission per BRS §3.1, but the segment-tagging structure in `questions.js` would extend cleanly).
+5. **A richer question bank** for loan types beyond the three personas' needs (explicitly out of scope for this submission per §3.1 of the requirements, but the segment-tagging structure in `questions.js` would extend cleanly).
 
 ## What I'd cut if the timebox got tighter
 

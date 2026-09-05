@@ -37,7 +37,7 @@ Segment resolved: **informal**.
 
 ## How the key domain challenge was handled
 
-This is the persona the BRS singles out as needing "Don't borrow" or "borrow much less" to be a *reachable* outcome despite a productive-sounding purpose (§4.2, §6.3). The must-set-only run (below) actually produces "Borrow" - Anita's raw FOIR math is fine on income and expenses alone. It is specifically the **bounce history + existing high-cost debt** - signals only surfaced by the two additional questions she answered - that flip the verdict to "Borrow less" and cut her safe-carry ceiling by half (`debtStressDiscount` in `RULES.md`). This is the single clearest demonstration in the three personas of why FR-Q2/FR-Q3 additional questions exist: without them, a borrower in real debt distress would be told "Borrow."
+This is the persona the requirements single out as needing "Don't borrow" or "borrow much less" to be a *reachable* outcome despite a productive-sounding purpose (§4.2, §6.3). The must-set-only run (below) actually produces "Borrow" - Anita's raw FOIR math is fine on income and expenses alone. It is specifically the **bounce history + existing high-cost debt** - signals only surfaced by the two additional questions she answered - that flip the verdict to "Borrow less" and cut her safe-carry ceiling by half (`debtStressDiscount` in `RULES.md`). This is the single clearest demonstration in the three personas of why FR-Q2/FR-Q3 additional questions exist: without them, a borrower in real debt distress would be told "Borrow."
 
 ## Negotiation Card
 
